@@ -6,9 +6,7 @@
 #include <stdlib.h>
 
 Image* Image_new(int width, int height, int channels, unsigned char *data) {
-    Image* img;
-
-    img = (Image*) malloc(sizeof(Image));
+    Image* img = (Image*) malloc(sizeof(Image));
 
     Image_setWidth(img, width);
     Image_setHeight(img, height);
