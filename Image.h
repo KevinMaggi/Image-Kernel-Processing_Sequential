@@ -28,10 +28,14 @@ typedef struct {
 #define Image_setPitch(img, val) (Image_getPitch(img) = (val))
 #define Image_setData(img, val) (Image_getData(img) = (val))
 
-Image* Image_new(int width, int height, int channels, unsigned char *data);
-Image* Image_new_empty(int width, int height, int channels);
-unsigned char Image_getPixel(Image* img, int x, int y, int c);
-void Image_setPixel(Image* img, int x, int y, int c, unsigned char val);
-void Image_delete(Image* img);
+Image *Image_new(int width, int height, int channels, unsigned char *data);
+
+Image *Image_new_empty(int width, int height, int channels);
+
+unsigned char Image_getPixel(Image *img, int x, int y, int c);
+
+void Image_setPixel(Image *img, int x, int y, int c, unsigned char val);
+
+void Image_delete(Image *img);
 
 #endif //IMAGE_KERNEL_PROCESSING_IMAGE_H

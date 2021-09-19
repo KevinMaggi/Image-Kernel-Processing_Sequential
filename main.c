@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "Image.h"
 #include "Utils.h"
+#include "Kernel.h"
 
 int main() {
-    Image* img;
+    Image *img;
 
     printf("Loading image\n");
     img = loadJPEG("/home/kevin/CLionProjects/Image_Kernel_Processing/Image/Input/example.jpg");
@@ -12,5 +13,6 @@ int main() {
         savePNG("/home/kevin/CLionProjects/Image_Kernel_Processing/Image/Output/example.png", img);
     }
     printf("Finish\n");
+
     return 0;
 }

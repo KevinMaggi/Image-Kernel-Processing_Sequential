@@ -14,7 +14,7 @@
  * @param filename path to JPEG
  * @return Image
  */
-Image* loadJPEG(const char *filename);
+Image *loadJPEG(const char *filename);
 
 /*
  * Save an array of clusters as PNG image
@@ -25,6 +25,6 @@ Image* loadJPEG(const char *filename);
  * @param height height of image
  * @return TRUE if success, false otherwise
  */
-bool savePNG(const char *filename, Image* img);
+bool savePNG(const char *filename, Image *img);
 
 #endif //IMAGE_KERNEL_PROCESSING_UTILS_H
