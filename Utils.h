@@ -9,14 +9,14 @@
 
 #include <stdbool.h>
 
-/*
+/**
  * Load a JPEG image and return it as Image
  * @param filename path to JPEG
  * @return Image
  */
 Image *loadJPEG(const char *filename);
 
-/*
+/**
  * Save an array of clusters as PNG image
  * @param clusters reference to array of clusters
  * @param k number of clusters
