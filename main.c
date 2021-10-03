@@ -10,15 +10,15 @@
 /**
  * Min value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MIN = 15;
+const int KERNEL_DIM_MIN = 5;
 /**
  * Max value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MAX = 19;
+const int KERNEL_DIM_MAX = 9;
 /**
  * Step on values of kernel dimension (MUST be even)
  */
-const int KERNEL_DIM_STEP = 4;
+const int KERNEL_DIM_STEP = 2;
 /**
  * Image dimension to test: 4K, 5K or 6K
  */
@@ -32,6 +32,16 @@ const int IMAGE_QUANTITY = 3;
  */
 const int REPETITIONS = 1;
 
+void saveTextFile(int *kDim, double *times, char *filename) {
+    FILE *file = fopen(filename, "w");
+
+    for (int k = 0; k < (KERNEL_DIM_MAX - KERNEL_DIM_MIN) / KERNEL_DIM_STEP + 1; k++) {
+        fprintf(file, "%d %f\n", k * KERNEL_DIM_STEP + KERNEL_DIM_MIN, times[k]);
+    }
+
+    fclose(file);
+}
+
 int main() {
     int *kDim = (int *) malloc(sizeof(int) * (KERNEL_DIM_MAX - KERNEL_DIM_MIN + 1));
     double *times = (double *) malloc(sizeof(double) * (KERNEL_DIM_MAX - KERNEL_DIM_MIN + 1));
@@ -40,7 +50,7 @@ int main() {
         double cumulativeSec = 0;
         Kernel *krn = Kernel_gaussianBlur(k);
         for (int imageIndex = 1; imageIndex <= IMAGE_QUANTITY; imageIndex++) {
-            char *inFilename = (char *) malloc(sizeof(char) * 68);
+            char *inFilename = (char *) malloc(sizeof(char) * 100);
             sprintf(inFilename, "/home/kevin/CLionProjects/Image_Kernel_Processing/Image/Input/%s-%d.jpg",
                     IMAGE_DIMENSION, imageIndex);
             Image *img = loadJPEG(inFilename);
@@ -57,7 +67,7 @@ int main() {
                        ((double) (end - start)) / CLOCKS_PER_SEC);
             }
 
-            char *outFilename = (char *) malloc(sizeof(char) * 83);
+            char *outFilename = (char *) malloc(sizeof(char) * 100);
             sprintf(outFilename, "/home/kevin/CLionProjects/Image_Kernel_Processing/Image/Output/%s-%d-processed%d.png",
                     IMAGE_DIMENSION, imageIndex, k);
             savePNG(outFilename, res);
@@ -68,6 +78,10 @@ int main() {
         printf("For kernel dimension = %d, MEAN computation time is %f seconds\n", k, meanTime);
     }
 
+    char *filename = (char *) malloc(sizeof(char) * 100);
+    sprintf(filename, "/home/kevin/CLionProjects/Image_Kernel_Processing/Image/Output/Times/%sExecTimes.txt",
+            IMAGE_DIMENSION);
+    saveTextFile(kDim, times, filename);
+
     return 0;
 }
-
