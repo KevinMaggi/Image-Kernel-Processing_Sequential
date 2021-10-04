@@ -16,11 +16,11 @@ typedef struct {
     /**
      * scalar for normalization
      */
-    float weight;
+    double weight;
     /**
      * kernel's coefficients
      */
-    float *coefficients;
+    unsigned long long int *coefficients;
 } Kernel;
 
 /**
@@ -43,7 +43,7 @@ typedef struct {
  * @param coefficients matrix values
  * @return Kernel
  */
-Kernel *Kernel_new(int size, float weight, float *coefficients);
+Kernel *Kernel_new(int size, double weight, unsigned long long int *coefficients);
 
 /**
  * Creates a new Kernel with only metadata
@@ -51,7 +51,7 @@ Kernel *Kernel_new(int size, float weight, float *coefficients);
  * @param weight scalar weight
  * @return Kernel
  */
-Kernel *Kernel_newEmpty(int size, float weight);
+Kernel *Kernel_newEmpty(int size, double weight);
 
 /**
  * Returns a kernel's value
@@ -60,7 +60,7 @@ Kernel *Kernel_newEmpty(int size, float weight);
  * @param y y index
  * @return coefficient
  */
-float Kernel_getCoefficient(Kernel *krn, int x, int y);
+unsigned long long int Kernel_getCoefficient(Kernel *krn, int x, int y);
 
 /**
  * Sets a kernel's value
@@ -69,7 +69,7 @@ float Kernel_getCoefficient(Kernel *krn, int x, int y);
  * @param y y index
  * @param coefficient value
  */
-void Kernel_setCoefficient(Kernel *krn, int x, int y, float coefficient);
+void Kernel_setCoefficient(Kernel *krn, int x, int y, unsigned long long int coefficient);
 
 /**
  * Frees the mem allocation of a Kernel
@@ -98,5 +98,11 @@ Kernel *Kernel_identity(int size);
  * @return Kernel
  */
 Kernel *Kernel_gaussianBlur(int size);
+
+/**
+ * Normalizes the weight
+ * @param krn
+ */
+void Kernel_normalize(Kernel *krn);
 
 #endif //IMAGE_KERNEL_PROCESSING_KERNEL_H

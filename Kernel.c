@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include "Kernel.h"
 
-Kernel *Kernel_new(int size, float weight, float *coefficients) {
+Kernel *Kernel_new(int size, double weight, unsigned long long int *coefficients) {
     Kernel *krn = (Kernel *) malloc(sizeof(Kernel));
 
     Kernel_setSize(krn, size);
@@ -15,19 +15,20 @@ Kernel *Kernel_new(int size, float weight, float *coefficients) {
     return krn;
 }
 
-Kernel *Kernel_newEmpty(int size, float weight) {
-    float *coefficients = (float *) malloc(sizeof(float) * size * size);
+Kernel *Kernel_newEmpty(int size, double weight) {
+    unsigned long long int *coefficients = (unsigned long long int *) malloc(
+            sizeof(unsigned long long int) * size * size);
     return Kernel_new(size, weight, coefficients);
 }
 
-float Kernel_getCoefficient(Kernel *krn, int x, int y) {
-    float *coefficients = Kernel_getCoefficients(krn);
+unsigned long long int Kernel_getCoefficient(Kernel *krn, int x, int y) {
+    unsigned long long int *coefficients = Kernel_getCoefficients(krn);
     int size = Kernel_getSize(krn);
     return coefficients[y * size + x];
 }
 
-void Kernel_setCoefficient(Kernel *krn, int x, int y, float coefficient) {
-    float *coefficients = Kernel_getCoefficients(krn);
+void Kernel_setCoefficient(Kernel *krn, int x, int y, unsigned long long int coefficient) {
+    unsigned long long int *coefficients = Kernel_getCoefficients(krn);
     int size = Kernel_getSize(krn);
 
     coefficients[y * size + x] = coefficient;
@@ -43,7 +44,7 @@ void Kernel_delete(Kernel *krn) {
 }
 
 Kernel *Kernel_boxBlur(int size) {
-    Kernel *krn = Kernel_newEmpty(size, (float) 1 / (float) (size * size));
+    Kernel *krn = Kernel_newEmpty(size, 1.0 / (double) (size * size));
 
     for (int i = 0; i < size * size; i++) {
         Kernel_getCoefficients(krn)[i] = 1;
@@ -61,8 +62,9 @@ Kernel *Kernel_identity(int size) {
 }
 
 Kernel *Kernel_gaussianBlur(int size) {
-    int coef, sum = 0;
-    int *coefficients = (int *) malloc(sizeof(int) * size);
+    unsigned long long int coef = 0;
+    unsigned long long int sum = 0;
+    unsigned long long int *coefficients = (unsigned long long int *) malloc(sizeof(unsigned long long int) * size);
     for (int j = 0; j < size; j++) {
         if (j == 0)
             coef = 1;
@@ -72,13 +74,21 @@ Kernel *Kernel_gaussianBlur(int size) {
         sum += coef;
     }
 
-    Kernel *krn = Kernel_newEmpty(size, (float) 1 / (float) (sum * sum));
+    Kernel *krn = Kernel_newEmpty(size, 1.0 / (double) (sum * sum));
 
     for (int i = 0; i < size * size; i++) {
         int col = i % size;
         int row = i / size;
-        Kernel_getCoefficients(krn)[i] = (float) (coefficients[row] * coefficients[col]);
+        Kernel_getCoefficients(krn)[i] = (coefficients[row] * coefficients[col]);
     }
 
     return krn;
+}
+
+void Kernel_normalize(Kernel *krn) {
+    unsigned long long int sum = 0;
+    for (int i = 0; i < krn->size * krn->size; i++) {
+        sum += krn->coefficients[i];
+    }
+    krn->weight = 1.0 / (double) sum;
 }

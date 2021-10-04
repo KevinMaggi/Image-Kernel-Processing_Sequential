@@ -10,15 +10,15 @@
 /**
  * Min value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MIN = 5;
+const int KERNEL_DIM_MIN = 25;
 /**
  * Max value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MAX = 9;
+const int KERNEL_DIM_MAX = 25;
 /**
  * Step on values of kernel dimension (MUST be even)
  */
-const int KERNEL_DIM_STEP = 2;
+const int KERNEL_DIM_STEP = 4;
 /**
  * Image dimension to test: 4K, 5K or 6K
  */
@@ -71,11 +71,16 @@ int main() {
             sprintf(outFilename, "/home/kevin/CLionProjects/Image_Kernel_Processing/Image/Output/%s-%d-processed%d.png",
                     IMAGE_DIMENSION, imageIndex, k);
             savePNG(outFilename, res);
+
+            Image_delete(img);
         }
+
         double meanTime = cumulativeSec / (REPETITIONS * IMAGE_QUANTITY);
         kDim[k - KERNEL_DIM_MIN] = k;
         times[k - KERNEL_DIM_MIN] = meanTime;
         printf("For kernel dimension = %d, MEAN computation time is %f seconds\n", k, meanTime);
+
+        Kernel_delete(krn);
     }
 
     char *filename = (char *) malloc(sizeof(char) * 100);

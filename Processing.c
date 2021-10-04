@@ -2,6 +2,7 @@
 // Created by kevin on 26/09/21.
 //
 
+#include <stdio.h>
 #include "Processing.h"
 
 Image *process(Image *img, Kernel *krn) {
@@ -10,7 +11,7 @@ Image *process(Image *img, Kernel *krn) {
     for (int iy = 0; iy < img->height; iy++) {
         for (int ix = 0; ix < img->width; ix++) {
             for (int ic = 0; ic < img->channels; ic++) {
-                int newVal = 0;
+                unsigned long long int newVal = 0;
                 for (int ky = 0; ky < krn->size; ky++) {
                     for (int kx = 0; kx < krn->size; kx++) {
                         int kCenter = krn->size / 2;
@@ -26,12 +27,21 @@ Image *process(Image *img, Kernel *krn) {
                             py = (py < 0) ? 0 : (img->height - 1);
                         }
 
-                        newVal += (int) ((float) Image_getPixel(img, px, py, ic) *
-                                         Kernel_getCoefficient(krn, ky, kx));
+                        unsigned long long int old = newVal;
+                        unsigned long long int val = (unsigned long long int) Image_getPixel(img, px, py, ic) *
+                                                     Kernel_getCoefficient(krn, ky, kx);
+
+                        newVal += (unsigned long long int) Image_getPixel(img, px, py, ic) *
+                                  Kernel_getCoefficient(krn, ky, kx);
+
+                        if (newVal < old) {
+                            printf("summing %llu (%llu * %c) to %llu\n", val, Kernel_getCoefficient(krn, ky, kx),
+                                   Image_getPixel(img, px, py, ic), old);
+                        }
                     }
                 }
-                newVal = (unsigned char) ((float) newVal * krn->weight);
-                Image_setPixel(res, ix, iy, ic, newVal);
+                newVal = (unsigned long long int) ((long double) newVal * krn->weight);
+                Image_setPixel(res, ix, iy, ic, (unsigned char) newVal);
             }
         }
     }
