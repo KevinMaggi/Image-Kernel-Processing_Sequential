@@ -20,9 +20,9 @@ const int KERNEL_DIM_MAX = 25;
  */
 const int KERNEL_DIM_STEP = 4;
 /**
- * Image dimension to test: 4K, 5K or 6K
+ * Image dimension to test: 4K, 5K, 6K or 7K
  */
-const char IMAGE_DIMENSION[] = "4K";
+const char IMAGE_DIMENSION[] = "5K";
 /**
  * Number of image of each dimension to test (max 3)
  */
