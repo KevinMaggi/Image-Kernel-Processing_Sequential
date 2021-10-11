@@ -33,11 +33,6 @@ Image *process(Image *img, Kernel *krn) {
 
                         newVal += (unsigned long long int) Image_getPixel(img, px, py, ic) *
                                   Kernel_getCoefficient(krn, ky, kx);
-
-                        if (newVal < old) {
-                            printf("summing %llu (%llu * %c) to %llu\n", val, Kernel_getCoefficient(krn, ky, kx),
-                                   Image_getPixel(img, px, py, ic), old);
-                        }
                     }
                 }
                 newVal = (unsigned long long int) ((long double) newVal * krn->weight);
