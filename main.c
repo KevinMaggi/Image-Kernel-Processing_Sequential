@@ -10,11 +10,11 @@
 /**
  * Min value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MIN = 25;
+const int KERNEL_DIM_MIN = 3;
 /**
  * Max value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MAX = 25;
+const int KERNEL_DIM_MAX = 3;
 /**
  * Step on values of kernel dimension (MUST be even)
  */
@@ -22,11 +22,11 @@ const int KERNEL_DIM_STEP = 4;
 /**
  * Image dimension to test: 4K, 5K, 6K or 7K
  */
-const char IMAGE_DIMENSION[] = "5K";
+const char IMAGE_DIMENSION[] = "4K";
 /**
  * Number of image of each dimension to test (max 3)
  */
-const int IMAGE_QUANTITY = 3;
+const int IMAGE_QUANTITY = 1;
 /**
  * Number of times to test each image
  */
@@ -36,7 +36,7 @@ void saveTextFile(int *kDim, double *times, char *filename) {
     FILE *file = fopen(filename, "w");
 
     for (int k = 0; k < (KERNEL_DIM_MAX - KERNEL_DIM_MIN) / KERNEL_DIM_STEP + 1; k++) {
-        fprintf(file, "%d %f\n", k * KERNEL_DIM_STEP + KERNEL_DIM_MIN, times[k]);
+        fprintf(file, "%d %f\n", kDim[k], times[k]);
     }
 
     fclose(file);
@@ -73,6 +73,9 @@ int main() {
             savePNG(outFilename, res);
 
             Image_delete(img);
+            Image_delete(res);
+            free(inFilename);
+            free(outFilename);
         }
 
         double meanTime = cumulativeSec / (REPETITIONS * IMAGE_QUANTITY);
@@ -87,6 +90,10 @@ int main() {
     sprintf(filename, "/home/kevin/CLionProjects/Image_Kernel_Processing/Image/Output/Times/%sExecTimes.txt",
             IMAGE_DIMENSION);
     saveTextFile(kDim, times, filename);
+
+    free(kDim);
+    free(times);
+    free(filename);
 
     return 0;
 }

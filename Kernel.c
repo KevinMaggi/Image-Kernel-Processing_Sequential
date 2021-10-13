@@ -82,6 +82,7 @@ Kernel *Kernel_gaussianBlur(int size) {
         Kernel_getCoefficients(krn)[i] = (coefficients[row] * coefficients[col]);
     }
 
+    free(coefficients);
     return krn;
 }
 
