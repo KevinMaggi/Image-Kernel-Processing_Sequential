@@ -10,15 +10,15 @@
 /**
  * Min value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MIN = 3;
+const int KERNEL_DIM_MIN = 7;
 /**
  * Max value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MAX = 3;
+const int KERNEL_DIM_MAX = 25;
 /**
  * Step on values of kernel dimension (MUST be even)
  */
-const int KERNEL_DIM_STEP = 4;
+const int KERNEL_DIM_STEP = 6;
 /**
  * Image dimension to test: 4K, 5K, 6K or 7K
  */
@@ -26,7 +26,7 @@ const char IMAGE_DIMENSION[] = "4K";
 /**
  * Number of image of each dimension to test (max 3)
  */
-const int IMAGE_QUANTITY = 1;
+const int IMAGE_QUANTITY = 3;
 /**
  * Number of times to test each image
  */
