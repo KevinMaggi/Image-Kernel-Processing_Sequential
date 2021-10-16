@@ -35,7 +35,7 @@ const int REPETITIONS = 1;
 void saveTextFile(int *kDim, double *times, char *filename) {
     FILE *file = fopen(filename, "w");
 
-    for (int k = 0; k < (KERNEL_DIM_MAX - KERNEL_DIM_MIN) / KERNEL_DIM_STEP + 1; k++) {
+    for (int k = 0; k <= (KERNEL_DIM_MAX - KERNEL_DIM_MIN); k += KERNEL_DIM_STEP) {
         fprintf(file, "%d %f\n", kDim[k], times[k]);
     }
 
