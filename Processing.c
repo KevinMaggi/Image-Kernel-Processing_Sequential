@@ -27,10 +27,6 @@ Image *process(Image *img, Kernel *krn) {
                             py = (py < 0) ? 0 : (img->height - 1);
                         }
 
-                        unsigned long long int old = newVal;
-                        unsigned long long int val = (unsigned long long int) Image_getPixel(img, px, py, ic) *
-                                                     Kernel_getCoefficient(krn, ky, kx);
-
                         newVal += (unsigned long long int) Image_getPixel(img, px, py, ic) *
                                   Kernel_getCoefficient(krn, ky, kx);
                     }
