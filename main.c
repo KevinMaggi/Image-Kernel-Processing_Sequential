@@ -14,15 +14,15 @@ const int KERNEL_DIM_MIN = 7;
 /**
  * Max value of kernel dimension to test (MUST be odd)
  */
-const int KERNEL_DIM_MAX = 7;
+const int KERNEL_DIM_MAX = 13;
 /**
  * Step on values of kernel dimension (MUST be even)
  */
 const int KERNEL_DIM_STEP = 6;
 /**
- * Image dimension to test: 4K, 5K, 6K or 7K
+ * Image dimension to test: 4K, 5K, 6K, 7K or 8K
  */
-const char IMAGE_DIMENSION[] = "4K";
+const char IMAGE_DIMENSION[] = "8K";
 /**
  * Number of image of each dimension to test (max 3)
  */
@@ -59,7 +59,7 @@ int main() {
                 Image_delete(res); // to free memory of previous result and avoid error
 
                 struct timeval start, end;
-                
+
                 gettimeofday(&start, NULL);
                 res = process(img, krn);
                 gettimeofday(&end, NULL);
